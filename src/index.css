@@ -1,0 +1,196 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 20% 6%;
+    --foreground: 30 20% 92%;
+    --border: 220 15% 18%;
+    --input: 220 15% 18%;
+    --ring: 38 70% 55%;
+    --primary: 38 70% 55%;
+    --primary-foreground: 220 20% 6%;
+    --muted: 220 15% 18%;
+    --muted-foreground: 30 10% 55%;
+    --card: 220 18% 10%;
+    --card-foreground: 30 20% 92%;
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+
+/* =========================
+   Photographer Portfolio
+   Cinematic Dark Theme
+========================= */
+
+@layer base {
+  :root {
+    /* Core colors */
+    --background: 220 20% 6%;
+    --foreground: 30 20% 92%;
+
+    --card: 220 18% 10%;
+    --card-foreground: 30 20% 92%;
+
+    --popover: 220 18% 10%;
+    --popover-foreground: 30 20% 92%;
+
+    /* Accent */
+    --primary: 38 70% 55%;
+    --primary-foreground: 220 20% 6%;
+
+    --secondary: 220 15% 15%;
+    --secondary-foreground: 30 15% 80%;
+
+    --muted: 220 15% 18%;
+    --muted-foreground: 30 10% 55%;
+
+    --accent: 38 70% 55%;
+    --accent-foreground: 220 20% 6%;
+
+    --destructive: 0 62.8% 50%;
+    --destructive-foreground: 30 20% 92%;
+
+    --border: 220 15% 18%;
+    --input: 220 15% 18%;
+    --ring: 38 70% 55%;
+
+    --radius: 0.25rem;
+
+    /* Custom tokens */
+    --gold: 38 70% 55%;
+    --gold-light: 38 60% 70%;
+    --cream: 30 20% 92%;
+    --charcoal: 220 20% 6%;
+    --charcoal-light: 220 18% 12%;
+
+    /* Gradients */
+    --gradient-gold: linear-gradient(
+      135deg,
+      hsl(38 70% 55%),
+      hsl(45 80% 65%)
+    );
+    --gradient-dark: linear-gradient(
+      180deg,
+      hsl(220 20% 6%),
+      hsl(220 18% 10%)
+    );
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  -webkit-font-smoothing: antialiased;
+}
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-medium tracking-tight;
+  }
+
+  ::selection {
+    @apply bg-primary/30 text-foreground;
+  }
+}
+
+/* =========================
+   Components
+========================= */
+@layer components {
+  .link-underline {
+    @apply relative inline-block;
+  }
+
+  .link-underline::after {
+    content: "";
+    @apply absolute bottom-0 left-0 w-full h-px bg-primary scale-x-0 origin-bottom-right transition-transform duration-300;
+  }
+
+  .link-underline:hover::after {
+    @apply scale-x-100 origin-bottom-left;
+  }
+
+  .glass-card {
+    @apply bg-card/50 backdrop-blur-md border border-border/50;
+  }
+
+  .image-overlay {
+    @apply absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent;
+  }
+
+  .section-padding {
+    @apply py-20 md:py-32 lg:py-40;
+  }
+
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-gold-light;
+  }
+
+  .animate-fade-up {
+    opacity: 0;
+    animation: fadeUp 0.8s ease-out forwards;
+  }
+
+  .animate-fade-in {
+    opacity: 0;
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+}
+
+/* =========================
+   Utilities
+========================= */
+@layer utilities {
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    @apply bg-muted;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    @apply bg-primary/50 rounded-full;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary;
+  }
+}
+
+/* =========================
+   Animations
+========================= */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

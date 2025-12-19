@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1500" viewBox="0 0 1200 1500" role="img" aria-label="Photographer portrait placeholder">
+  <rect width="100%" height="100%" fill="#0a0a0a"/>
+  <g fill="#222" font-family="sans-serif" font-size="48" text-anchor="middle">
+    <text x="50%" y="48%" fill="#555">Portrait</text>
+    <text x="50%" y="56%" fill="#555">placeholder</text>
+  </g>
+</svg>
