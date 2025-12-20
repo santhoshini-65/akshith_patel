@@ -1,3 +1,6 @@
+import { Analytics } from '@vercel/analytics/react';
+// and the component itself: <Analytics />
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { PortfolioProvider } from "@/context/PortfolioContext";
