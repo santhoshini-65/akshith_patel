@@ -15,7 +15,7 @@ const services = [
       "Printing Rights & Online Gallery",
       "Second Shooter Available"
     ],
-    startingPrice: "$2,500",
+    
     duration: "Full Day"
   },
   {
@@ -29,7 +29,7 @@ const services = [
       "Professionally Edited Images",
       "Digital Delivery within 2 Weeks"
     ],
-    startingPrice: "$450",
+    
     duration: "1-2 Hours"
   },
   {
@@ -43,7 +43,7 @@ const services = [
       "Online Gallery",
       "Social Media Ready Images"
     ],
-    startingPrice: "$800",
+    
     duration: "3-4 Hours"
   }
 ];
@@ -108,7 +108,7 @@ export function ServicesSection() {
                 {/* Price & Duration */}
                 <div className="mb-6 text-center">
                   <div className="text-2xl font-heading text-primary mb-1">
-                    {service.startingPrice}
+                    
                   </div>
                   <div className="text-sm text-muted-foreground">
                     Starting Price • {service.duration}

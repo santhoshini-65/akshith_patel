@@ -1,13 +1,11 @@
 import { AnimatedSection } from "../ui/AnimatedSection";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, MapPin, Instagram, Facebook, Linkedin, Youtube, MessageCircle, Phone } from "lucide-react";
-
-
+import { Mail, MapPin, Instagram, Youtube, Phone } from "lucide-react";
 
 const socialLinks = [
   { icon: Instagram, href: "https://www.instagram.com/soulfulcapturebyakshith", label: "Instagram" },
-  { icon: Phone, href: "tel:9848863666", label: "Call Me" }, // Phone icon instead
+  { icon: Phone, href: "tel:9848863666", label: "Call Me" },
   { icon: Youtube, href: "http://www.youtube.com/@AkshithPatel08", label: "YouTube" },
 ];
 
@@ -21,18 +19,44 @@ export const ContactSection = () => {
     message: "",
   });
 
+  // ✅ NEW: Updated handleSubmit function that works with Formspree
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    toast({
-      title: "Inquiry Sent",
-      description: "I will reach out to you shortly to discuss your vision.",
-    });
+    const form = e.currentTarget as HTMLFormElement;
+    const formData = new FormData(form);
 
-    setFormData({ name: "", email: "", date: "", message: "" });
-    setIsSubmitting(false);
+    try {
+      const response = await fetch(form.action, {
+        method: form.method,
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Inquiry Sent",
+          description: "I will reach out to you shortly to discuss your vision.",
+        });
+        
+        setFormData({ name: "", email: "", date: "", message: "" });
+      } else {
+        const data = await response.json();
+        throw new Error(data.error || 'Form submission failed');
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+     toast({
+  title: "Error",
+  description: "Failed to send message. Please try again.",
+  // Remove or comment out the variant line
+});
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -104,7 +128,13 @@ export const ContactSection = () => {
 
           {/* Right Side: Minimalist Form */}
           <AnimatedSection delay={300} className="relative">
-            <form onSubmit={handleSubmit} className="space-y-12">
+            {/* ✅ CHANGED: Added action and method attributes to form tag */}
+            <form 
+              action="https://formspree.io/f/xwvellgk" 
+              method="POST" 
+              onSubmit={handleSubmit} 
+              className="space-y-12"
+            >
               <div className="space-y-10">
                 <div className="relative group">
                   <input

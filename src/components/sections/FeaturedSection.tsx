@@ -1,5 +1,5 @@
 import { AnimatedSection } from "@/components/AnimatedSection";
-import wedding1 from "@/assets/wedding1.jpeg";
+import wedding_couple from "@/assets/portfolio/wedding_couple.jpg";
 import wedding2 from "@/assets/wedding2.jpeg";
 import portrait1 from "@/assets/portrait1.jpeg";
 
@@ -9,7 +9,7 @@ const featuredWorks = [
     title: "Traditional Elegance",
     category: "Wedding",
     description: "A beautiful celebration of tradition and love. Every detail captured with artistry and emotion, preserving precious moments forever.",
-    image: wedding1,
+    image: wedding_couple,
   },
   {
     id: 2,
