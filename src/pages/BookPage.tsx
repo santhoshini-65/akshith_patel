@@ -223,7 +223,7 @@ const BookPage = () => {
             <div className="p-6 bg-card border border-border rounded-xl">
               <Mail className="w-8 h-8 mx-auto mb-3 text-primary" />
               <h3 className="font-medium text-foreground mb-1">Email</h3>
-              <p className="text-muted-foreground">soulfulcapturebyakshith@gmail.com</p>
+            <p className="text-muted-foreground">soulfulcapturebyakshith@gmail.com</p>
             </div>
             <div className="p-6 bg-card border border-border rounded-xl">
               <Phone className="w-8 h-8 mx-auto mb-3 text-primary" />

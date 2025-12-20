@@ -149,7 +149,7 @@ export const Footer = () => {
         {/* Bottom Bar */}
         <div className="mt-16 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} soulfulcapturebyakshith Photography. All rights reserved.
+            © {new Date().getFullYear()} soulfulcapturebyakshith photography. All rights reserved.
           </p>
           <div className="flex gap-6">
             <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">

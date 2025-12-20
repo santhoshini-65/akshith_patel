@@ -26,7 +26,7 @@ export const AboutSection = () => {
           <AnimatedSection delay={200}>
             <div className="relative">
               <div className="aspect-[4/5] overflow-hidden">
-                <img alt="Akshith patel - Professional Photographer" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" src="/lovable-uploads/akshith.jpeg" />
+                <img alt="Akshith patel - Professional Photographer" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" src="/lovable-uploads/akhi.jpeg" />
               </div>
               {/* Decorative element */}
               <div className="absolute -bottom-6 -right-6 w-32 h-32 border border-primary/30 -z-10" />
