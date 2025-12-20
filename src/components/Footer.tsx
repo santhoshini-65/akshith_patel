@@ -44,7 +44,7 @@ export const Footer = () => {
               }}
               className="font-heading text-2xl font-medium text-foreground"
             >
-              [Soulful Captures by Akshith]
+              Soulful Capture by Akshith
             </a>
             <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
               ["Transforming ordinary moments into extraordinary memories. Book your session today"]
@@ -124,7 +124,7 @@ export const Footer = () => {
                   href="mailto:[YOUR EMAIL]"
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  [akshithelmala@gmail.com]
+                   akshithelmala@gmail.com
                 </a>
               </li>
               <li className="flex items-start gap-3">
@@ -133,13 +133,13 @@ export const Footer = () => {
                   href="tel:[YOUR PHONE]"
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  [+91 98488 63666]
+                   +91 98488 63666
                 </a>
               </li>
               <li className="flex items-start gap-3">
                 <MapPin size={16} className="text-primary mt-1 flex-shrink-0" />
                 <span className="text-sm text-muted-foreground">
-                  [Gayatri Nagar, Nizamabad, Telangana, India]
+                   Gayatri Nagar, Nizamabad, Telangana, India
                 </span>
               </li>
             </ul>
@@ -149,7 +149,7 @@ export const Footer = () => {
         {/* Bottom Bar */}
         <div className="mt-16 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} [AKSHITH PATEL] Photography. All rights reserved.
+            © {new Date().getFullYear()} soulfulcapturebyakshith Photography. All rights reserved.
           </p>
           <div className="flex gap-6">
             <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
