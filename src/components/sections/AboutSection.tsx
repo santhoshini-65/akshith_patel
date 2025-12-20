@@ -7,15 +7,15 @@ const stats = [{
   label: "Years Experience"
 }, {
   icon: Heart,
-  value: "100+",
+  value: "50+",
   label: "Happy Couples"
 }, {
   icon: Users,
-  value: "500+",
+  value: "200+",
   label: "Sessions Completed"
 }, {
   icon: Award,
-  value: "5+",
+  value: "1+",
   label: "Awards Won"
 }];
 export const AboutSection = () => {

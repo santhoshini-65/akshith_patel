@@ -9,11 +9,11 @@ const services = [
     icon: <Heart className="w-10 h-10" />,
     description: "Capture every precious moment of your special day with artistic storytelling. From getting ready to the final dance.",
     features: [
-      "Full Day Coverage (8-10 hours)",
+      "Cinematic frames & candids",
       "Engagement Session Included",
-      "Digital Gallery with 500+ Images",
-      "Printing Rights & Online Gallery",
-      "Second Shooter Available"
+      "Haldi & Sangeet Coverage",
+      "Quick Album Delivery",
+      "Youtube Live Stream Setup"
     ],
     
     duration: "Full Day"
@@ -23,7 +23,7 @@ const services = [
     icon: <Users className="w-10 h-10" />,
     description: "Professional portraits that reflect your personality and tell your unique story. Perfect for individuals, couples, or families.",
     features: [
-      "1-2 Hour Session",
+      "Candid Photography",
       "Multiple Locations",
       "3 Outfit Changes",
       "Professionally Edited Images",
@@ -37,7 +37,7 @@ const services = [
     icon: <Calendar className="w-10 h-10" />,
     description: "Document your celebrations with vibrant, candid shots that capture the energy, emotion, and joy of your special occasions.",
     features: [
-      "Up to 4 Hours Coverage",
+      "Cinematic Videography",
       "Candid & Posed Shots",
       "Fast Turnaround (1 Week)",
       "Online Gallery",

@@ -44,7 +44,7 @@ export const Footer = () => {
               }}
               className="font-heading text-2xl font-medium text-foreground"
             >
-              [AKSHITH PATEL]
+              [Soulful Captures by Akshith]
             </a>
             <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
               ["Transforming ordinary moments into extraordinary memories. Book your session today"]
