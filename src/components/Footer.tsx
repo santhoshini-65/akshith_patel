@@ -1,4 +1,4 @@
-import { Instagram, Facebook, Twitter, Mail, MapPin, Phone } from "lucide-react";
+import { Instagram, Facebook, Twitter, Mail, MapPin, Phone, Youtube } from "lucide-react";
 
 const footerLinks = {
   navigation: [
@@ -17,9 +17,9 @@ const footerLinks = {
 };
 
 const socialLinks = [
-  { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
-  { icon: Facebook, href: "https://facebook.com", label: "Facebook" },
-  { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
+  { icon: Instagram, href: "https://www.instagram.com/soulfulcapturebyakshith", label: "Instagram" },
+  { icon: Youtube, href: "http://www.youtube.com/@AkshithPatel08", label: "YouTube" },
+  { icon: Mail, href: "mailto:akshithelmala@gmail.com", label: "Email" },
 ];
 
 export const Footer = () => {

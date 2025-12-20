@@ -105,13 +105,10 @@ export function ServicesSection() {
                   </ul>
                 </div>
 
-                {/* Price & Duration */}
+                {/* Duration Only - REMOVED "Starting Price" */}
                 <div className="mb-6 text-center">
-                  <div className="text-2xl font-heading text-primary mb-1">
-                    
-                  </div>
                   <div className="text-sm text-muted-foreground">
-                    Starting Price • {service.duration}
+                    {service.duration}
                   </div>
                 </div>
 
