@@ -45,7 +45,7 @@ export const ContactSection = () => {
           reply_to: formData.email,
           to_email: 'akshithelmala@gmail.com',
           date: new Date().toLocaleDateString('en-IN'),
-          time: new Date().toLocaleTimeString('en-IN'),
+          time: new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }), // Added format
         }
       );
 
@@ -155,8 +155,6 @@ export const ContactSection = () => {
               onSubmit={handleSubmit} 
               className="space-y-12"
             >
-              {/* No hidden fields needed for EmailJS */}
-              
               <div className="space-y-10">
                 <div className="relative group">
                   <input
@@ -166,7 +164,8 @@ export const ContactSection = () => {
                     minLength={2}
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full bg-transparent border-b border-white/20 py-4 outline-none focus:border-accent transition-colors peer placeholder-transparent"
+                    disabled={isSubmitting} // ← ADDED
+                    className="w-full bg-transparent border-b border-white/20 py-4 outline-none focus:border-accent transition-colors peer placeholder-transparent disabled:opacity-50"
                     placeholder="Name"
                   />
                   <label className="absolute left-0 top-0 text-[10px] uppercase tracking-widest text-white/40 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-4 peer-focus:top-0 peer-focus:text-[10px] peer-focus:text-accent">
@@ -181,7 +180,8 @@ export const ContactSection = () => {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full bg-transparent border-b border-white/20 py-4 outline-none focus:border-accent transition-colors peer placeholder-transparent"
+                    disabled={isSubmitting} // ← ADDED
+                    className="w-full bg-transparent border-b border-white/20 py-4 outline-none focus:border-accent transition-colors peer placeholder-transparent disabled:opacity-50"
                     placeholder="Email"
                   />
                   <label className="absolute left-0 top-0 text-[10px] uppercase tracking-widest text-white/40 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-4 peer-focus:top-0 peer-focus:text-[10px] peer-focus:text-accent">
@@ -197,7 +197,8 @@ export const ContactSection = () => {
                     rows={4}
                     value={formData.message}
                     onChange={handleChange}
-                    className="w-full bg-transparent border-b border-white/20 py-4 outline-none focus:border-accent transition-colors peer placeholder-transparent resize-none"
+                    disabled={isSubmitting} // ← ADDED
+                    className="w-full bg-transparent border-b border-white/20 py-4 outline-none focus:border-accent transition-colors peer placeholder-transparent resize-none disabled:opacity-50"
                     placeholder="Message"
                   />
                   <label className="absolute left-0 top-0 text-[10px] uppercase tracking-widest text-white/40 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-4 peer-focus:top-0 peer-focus:text-[10px] peer-focus:text-accent">
