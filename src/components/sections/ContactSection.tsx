@@ -2,6 +2,17 @@ import { AnimatedSection } from "../ui/AnimatedSection";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, MapPin, Instagram, Youtube, Phone } from "lucide-react";
+import emailjs from '@emailjs/browser';
+
+// ✅ YOUR ACTUAL EMAILJS IDs
+const EMAILJS_CONFIG = {
+  SERVICE_ID: 'service_ip5dina',      // Your EmailJS Service ID
+  TEMPLATE_ID: 'template_cs3b46i',    // Your EmailJS Template ID  
+  PUBLIC_KEY: 'gJnY4IeY0AhdKdQQ0',    // Your EmailJS Public Key
+};
+
+// Initialize EmailJS with your Public Key
+emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
 
 const socialLinks = [
   { icon: Instagram, href: "https://www.instagram.com/soulfulcapturebyakshith", label: "Instagram" },
@@ -22,47 +33,39 @@ export const ContactSection = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Your Formspree endpoint
-    const formspreeEndpoint = "https://formspree.io/f/xwvellgk";
-    
-    // Prepare form data
-    const data = new FormData();
-    data.append('name', formData.name);
-    data.append('email', formData.email);
-    data.append('message', formData.message);
-    
-    // Add special fields for Formspree
-    data.append('_subject', `New Photography Inquiry from ${formData.name}`);
-    data.append('_cc', formData.email); // Sends copy to user
-    data.append('_replyto', formData.email); // Sets reply-to address
-    data.append('_format', 'plain'); // Simple email format
-
     try {
-      const response = await fetch(formspreeEndpoint, {
-        method: "POST",
-        body: data,
-        headers: {
-          'Accept': 'application/json'
+      // Send email directly via EmailJS
+      const result = await emailjs.send(
+        EMAILJS_CONFIG.SERVICE_ID,
+        EMAILJS_CONFIG.TEMPLATE_ID,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+          reply_to: formData.email,
+          to_email: 'akshithelmala@gmail.com',
+          date: new Date().toLocaleDateString('en-IN'),
+          time: new Date().toLocaleTimeString('en-IN'),
         }
-      });
+      );
 
-      if (response.ok) {
+      console.log('✅ EmailJS result:', result);
+
+      if (result.status === 200 || result.status === 201) {
         toast({
-          title: "Inquiry Sent Successfully! 📸",
-          description: "I've received your message and will get back to you within 24 hours.",
+          title: "📸 Inquiry Sent Successfully!",
+          description: "I've received your message and will reply within 24 hours.",
         });
-        
         // Reset form
         setFormData({ name: "", email: "", message: "" });
       } else {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Form submission failed');
+        throw new Error('Email failed to send');
       }
     } catch (error) {
-      console.error('Form submission error:', error);
+      console.error('❌ EmailJS error:', error);
       toast({
-        title: "Sending Failed",
-        description: "Please try again or contact me directly at akshithelmala@gmail.com",
+        title: "❌ Message Not Sent",
+        description: "Please email me directly at akshithelmala@gmail.com",
       });
     } finally {
       setIsSubmitting(false);
@@ -152,8 +155,7 @@ export const ContactSection = () => {
               onSubmit={handleSubmit} 
               className="space-y-12"
             >
-              {/* Hidden honeypot field to prevent spam */}
-              <input type="text" name="_gotcha" style={{display: 'none'}} />
+              {/* No hidden fields needed for EmailJS */}
               
               <div className="space-y-10">
                 <div className="relative group">
@@ -230,7 +232,6 @@ export const ContactSection = () => {
               </p>
             </form>
           </AnimatedSection>
-
         </div>
       </div>
     </section>
