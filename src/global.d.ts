@@ -21,3 +21,10 @@ declare module "tailwind-merge" {
   export default twMerge;
 }
 
+// Minimal d3 module stubs to satisfy TypeScript when @types packages are missing
+declare module "d3-array";
+declare module "d3-color";
+declare module "d3-ease";
+declare module "d3-shape";
+declare module "d3-timer";
+

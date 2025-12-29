@@ -7,15 +7,15 @@ const stats = [{
   label: "Years Experience"
 }, {
   icon: Heart,
-  value: "100+",
+  value: "50+",
   label: "Happy Couples"
 }, {
   icon: Users,
-  value: "500+",
+  value: "200+",
   label: "Sessions Completed"
 }, {
   icon: Award,
-  value: "5+",
+  value: "1+",
   label: "Awards Won"
 }];
 export const AboutSection = () => {
@@ -26,7 +26,7 @@ export const AboutSection = () => {
           <AnimatedSection delay={200}>
             <div className="relative">
               <div className="aspect-[4/5] overflow-hidden">
-                <img alt="Akshith patel - Professional Photographer" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" src="/lovable-uploads/akshith.jpeg" />
+                <img alt="Akshith patel - Professional Photographer" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" src="/lovable-uploads/akhi.jpeg" />
               </div>
               {/* Decorative element */}
               <div className="absolute -bottom-6 -right-6 w-32 h-32 border border-primary/30 -z-10" />
@@ -56,7 +56,7 @@ export const AboutSection = () => {
 
             <AnimatedSection delay={400}>
               <p className="text-muted-foreground leading-relaxed mb-6">
-                Over time, I’ve photographed people, places, and emotions in their most honest form. I’m drawn to quiet details, natural expressions, and moments that don’t ask to be posed.
+                Over time, I've photographed people, places, and emotions in their most honest form. I'm drawn to quiet details, natural expressions, and moments that don't ask to be posed.
               </p>
             </AnimatedSection>
 

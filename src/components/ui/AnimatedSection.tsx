@@ -14,7 +14,8 @@ export const AnimatedSection: React.FC<Props> = ({ children, delay = 0, classNam
     const el = ref.current;
     if (!el) return;
     if (typeof IntersectionObserver === "undefined") {
-      setVisible(true);
+      // avoid synchronous setState inside an effect to prevent cascading renders
+      setTimeout(() => setVisible(true), 0);
       return;
     }
 

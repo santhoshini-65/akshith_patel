@@ -2,6 +2,17 @@ import { AnimatedSection } from "../ui/AnimatedSection";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, MapPin, Instagram, Youtube, Phone } from "lucide-react";
+import emailjs from '@emailjs/browser';
+
+// ✅ YOUR ACTUAL EMAILJS IDs
+const EMAILJS_CONFIG = {
+  SERVICE_ID: 'service_ip5dina',      // Your EmailJS Service ID
+  TEMPLATE_ID: 'template_cs3b46i',    // Your EmailJS Template ID  
+  PUBLIC_KEY: 'gJnY4IeY0AhdKdQQ0',    // Your EmailJS Public Key
+};
+
+// Initialize EmailJS with your Public Key
+emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
 
 const socialLinks = [
   { icon: Instagram, href: "https://www.instagram.com/soulfulcapturebyakshith", label: "Instagram" },
@@ -15,45 +26,47 @@ export const ContactSection = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    date: "",
     message: "",
   });
 
-  // ✅ NEW: Updated handleSubmit function that works with Formspree
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    const form = e.currentTarget as HTMLFormElement;
-    const formData = new FormData(form);
-
     try {
-      const response = await fetch(form.action, {
-        method: form.method,
-        body: formData,
-        headers: {
-          'Accept': 'application/json'
+      // Send email directly via EmailJS
+      const result = await emailjs.send(
+        EMAILJS_CONFIG.SERVICE_ID,
+        EMAILJS_CONFIG.TEMPLATE_ID,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+          reply_to: formData.email,
+          to_email: 'akshithelmala@gmail.com',
+          date: new Date().toLocaleDateString('en-IN'),
+          time: new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }), // Added format
         }
-      });
+      );
 
-      if (response.ok) {
+      console.log('✅ EmailJS result:', result);
+
+      if (result.status === 200 || result.status === 201) {
         toast({
-          title: "Inquiry Sent",
-          description: "I will reach out to you shortly to discuss your vision.",
+          title: "📸 Inquiry Sent Successfully!",
+          description: "I've received your message and will reply within 24 hours.",
         });
-        
-        setFormData({ name: "", email: "", date: "", message: "" });
+        // Reset form
+        setFormData({ name: "", email: "", message: "" });
       } else {
-        const data = await response.json();
-        throw new Error(data.error || 'Form submission failed');
+        throw new Error('Email failed to send');
       }
     } catch (error) {
-      console.error('Form submission error:', error);
-     toast({
-  title: "Error",
-  description: "Failed to send message. Please try again.",
-  // Remove or comment out the variant line
-});
+      console.error('❌ EmailJS error:', error);
+      toast({
+        title: "❌ Message Not Sent",
+        description: "Please email me directly at akshithelmala@gmail.com",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -84,8 +97,8 @@ export const ContactSection = () => {
               </AnimatedSection>
               <AnimatedSection delay={200}>
                 <p className="text-white/50 mb-12 text-lg font-light leading-relaxed max-w-md">
-                  Whether it’s a wedding, a personal project, or a brand story, 
-                  I’m here to capture the raw, honest moments. We shoot pre & post weddings, pre & post Birthdays, Model shoots, Portrait photography, New Born Shoots, etc..
+                  Whether it's a wedding, a personal project, or a brand story, 
+                  I'm here to capture the raw, honest moments. We shoot pre & post weddings, pre & post Birthdays, Model shoots, Portrait photography, New Born Shoots, etc.
                 </p>
               </AnimatedSection>
 
@@ -96,7 +109,10 @@ export const ContactSection = () => {
                   </div>
                   <div>
                     <p className="text-[10px] uppercase tracking-widest text-white/30">Email Me</p>
-                    <a href="mailto:akshithelmala@gmail.com" className="text-lg hover:text-accent transition-colors font-light">
+                    <a 
+                      href="mailto:akshithelmala@gmail.com" 
+                      className="text-lg hover:text-accent transition-colors font-light"
+                    >
                       akshithelmala@gmail.com
                     </a>
                   </div>
@@ -118,7 +134,14 @@ export const ContactSection = () => {
             <AnimatedSection delay={500} className="mt-16 pt-8 border-t border-white/5">
               <div className="flex gap-8">
                 {socialLinks.map((social) => (
-                  <a key={social.label} href={social.href} className="text-white/40 hover:text-accent transition-all uppercase text-[11px] tracking-widest">
+                  <a 
+                    key={social.label} 
+                    href={social.href} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-white/40 hover:text-accent transition-all uppercase text-[11px] tracking-widest flex items-center gap-2"
+                  >
+                    <social.icon size={14} />
                     {social.label}
                   </a>
                 ))}
@@ -128,10 +151,7 @@ export const ContactSection = () => {
 
           {/* Right Side: Minimalist Form */}
           <AnimatedSection delay={300} className="relative">
-            {/* ✅ CHANGED: Added action and method attributes to form tag */}
             <form 
-              action="https://formspree.io/f/xwvellgk" 
-              method="POST" 
               onSubmit={handleSubmit} 
               className="space-y-12"
             >
@@ -141,9 +161,11 @@ export const ContactSection = () => {
                     type="text"
                     name="name"
                     required
+                    minLength={2}
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full bg-transparent border-b border-white/20 py-4 outline-none focus:border-accent transition-colors peer placeholder-transparent"
+                    disabled={isSubmitting} // ← ADDED
+                    className="w-full bg-transparent border-b border-white/20 py-4 outline-none focus:border-accent transition-colors peer placeholder-transparent disabled:opacity-50"
                     placeholder="Name"
                   />
                   <label className="absolute left-0 top-0 text-[10px] uppercase tracking-widest text-white/40 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-4 peer-focus:top-0 peer-focus:text-[10px] peer-focus:text-accent">
@@ -158,7 +180,8 @@ export const ContactSection = () => {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full bg-transparent border-b border-white/20 py-4 outline-none focus:border-accent transition-colors peer placeholder-transparent"
+                    disabled={isSubmitting} // ← ADDED
+                    className="w-full bg-transparent border-b border-white/20 py-4 outline-none focus:border-accent transition-colors peer placeholder-transparent disabled:opacity-50"
                     placeholder="Email"
                   />
                   <label className="absolute left-0 top-0 text-[10px] uppercase tracking-widest text-white/40 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-4 peer-focus:top-0 peer-focus:text-[10px] peer-focus:text-accent">
@@ -170,14 +193,16 @@ export const ContactSection = () => {
                   <textarea
                     name="message"
                     required
+                    minLength={10}
                     rows={4}
                     value={formData.message}
                     onChange={handleChange}
-                    className="w-full bg-transparent border-b border-white/20 py-4 outline-none focus:border-accent transition-colors peer placeholder-transparent resize-none"
+                    disabled={isSubmitting} // ← ADDED
+                    className="w-full bg-transparent border-b border-white/20 py-4 outline-none focus:border-accent transition-colors peer placeholder-transparent resize-none disabled:opacity-50"
                     placeholder="Message"
                   />
                   <label className="absolute left-0 top-0 text-[10px] uppercase tracking-widest text-white/40 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-4 peer-focus:top-0 peer-focus:text-[10px] peer-focus:text-accent">
-                    Tell me about your story...
+                    Tell me about your story... *
                   </label>
                 </div>
               </div>
@@ -185,14 +210,29 @@ export const ContactSection = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="group relative w-full py-5 border border-white/20 text-[11px] uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all duration-500 overflow-hidden"
+                className="group relative w-full py-5 border border-white/20 text-[11px] uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all duration-500 overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <span className="relative z-10">{isSubmitting ? "Sending..." : "Submit Inquiry"}</span>
+                <span className="relative z-10">
+                  {isSubmitting ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                      Sending...
+                    </span>
+                  ) : (
+                    "Submit Inquiry"
+                  )}
+                </span>
                 <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
               </button>
+              
+              <p className="text-xs text-white/30 text-center">
+                By submitting, you agree to be contacted about your photography inquiry.
+              </p>
             </form>
           </AnimatedSection>
-
         </div>
       </div>
     </section>

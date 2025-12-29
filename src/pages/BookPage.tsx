@@ -4,10 +4,23 @@ import { Button } from "@/components/ui/_buttonShim";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useLocation } from "react-router-dom";
+import emailjs from '@emailjs/browser';
+import { useToast } from "@/hooks/use-toast";
+
+// Your EmailJS Configuration for Booking
+const EMAILJS_CONFIG = {
+  SERVICE_ID: 'service_ip5dina',
+  TEMPLATE_ID: 'template_3oo1kkh', // Use existing template or create new one
+  PUBLIC_KEY: 'gJnY4IeY0AhdKdQQ0',
+};
+
+// Initialize EmailJS
+emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
 
 const BookPage = () => {
   const location = useLocation();
   const selectedService = location.state?.service || "";
+  const { toast } = useToast();
   
   const [formData, setFormData] = useState({
     name: "",
@@ -18,6 +31,8 @@ const BookPage = () => {
     service: selectedService,
     message: "",
   });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const services = [
     "Wedding Photography",
@@ -39,20 +54,74 @@ const BookPage = () => {
     }
   }, [selectedService]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Booking submitted:", formData);
-    alert("Thank you! We'll contact you soon to confirm your booking.");
-    // Reset form
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      date: "",
-      time: "",
-      service: "",
-      message: "",
-    });
+    
+    // Validate date
+    const selectedDate = new Date(formData.date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    if (selectedDate < today) {
+      toast({
+        title: "❌ Invalid Date",
+        description: "Please select a future date.",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Send booking email via EmailJS
+      const result = await emailjs.send(
+        EMAILJS_CONFIG.SERVICE_ID,
+        EMAILJS_CONFIG.TEMPLATE_ID,
+        {
+          from_name: formData.name,           // Changed from customer_name to from_name
+          from_email: formData.email,         // Changed from customer_email to from_email
+          customer_phone: formData.phone || 'Not provided',
+          session_type: formData.service,
+          preferred_date: formData.date,
+          preferred_time: formData.time,
+          message: formData.message,
+          reply_to: formData.email,           // Added reply_to
+          to_email: 'soulfulcapturebyakshith@gmail.com',
+          date: new Date().toLocaleDateString('en-IN'),
+          time: new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }),
+        }
+      );
+
+      console.log('✅ Booking email sent:', result);
+
+      if (result.status === 200 || result.status === 201) {
+        toast({
+          title: "✅ Booking Request Sent!",
+          description: "I'll contact you within 24 hours to confirm your session.",
+        });
+        
+        // Reset form but keep selected service if coming from booking button
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          date: "",
+          time: "",
+          service: selectedService || "",
+          message: "",
+        });
+      } else {
+        throw new Error('Email failed to send');
+      }
+    } catch (error) {
+      console.error('❌ Booking error:', error);
+      toast({
+        title: "❌ Booking Failed",
+        description: "Please email soulfulcapturebyakshith@gmail.com directly",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -94,7 +163,8 @@ const BookPage = () => {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                    disabled={isSubmitting}
+                    className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent disabled:opacity-50"
                     placeholder="John Doe"
                   />
                 </div>
@@ -110,7 +180,8 @@ const BookPage = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                    disabled={isSubmitting}
+                    className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent disabled:opacity-50"
                     placeholder="john@example.com"
                   />
                 </div>
@@ -125,8 +196,9 @@ const BookPage = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="+1 (555) 123-4567"
+                    disabled={isSubmitting}
+                    className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent disabled:opacity-50"
+                    placeholder="+91 9848863666"
                   />
                 </div>
 
@@ -140,7 +212,8 @@ const BookPage = () => {
                     value={formData.service}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                    disabled={isSubmitting}
+                    className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent disabled:opacity-50"
                   >
                     <option value="">Select a service</option>
                     {services.map((service) => (
@@ -163,7 +236,8 @@ const BookPage = () => {
                     onChange={handleChange}
                     required
                     min={new Date().toISOString().split('T')[0]}
-                    className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                    disabled={isSubmitting}
+                    className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent disabled:opacity-50"
                   />
                 </div>
 
@@ -178,7 +252,8 @@ const BookPage = () => {
                     value={formData.time}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                    disabled={isSubmitting}
+                    className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent disabled:opacity-50"
                   />
                 </div>
               </div>
@@ -194,7 +269,8 @@ const BookPage = () => {
                   value={formData.message}
                   onChange={handleChange}
                   rows={4}
-                  className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  disabled={isSubmitting}
+                  className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent disabled:opacity-50"
                   placeholder="Tell me about your vision, location preferences, special requirements..."
                 />
               </div>
@@ -204,9 +280,20 @@ const BookPage = () => {
                 <Button
                   type="submit"
                   variant="hero"
-                  className="w-full md:w-auto px-8 py-3 text-lg"
+                  className="w-full md:w-auto px-8 py-3 text-lg disabled:opacity-50"
+                  disabled={isSubmitting}
                 >
-                  Submit Booking Request
+                  {isSubmitting ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                      Sending Booking Request...
+                    </span>
+                  ) : (
+                    "Submit Booking Request"
+                  )}
                 </Button>
               </div>
 
@@ -223,12 +310,12 @@ const BookPage = () => {
             <div className="p-6 bg-card border border-border rounded-xl">
               <Mail className="w-8 h-8 mx-auto mb-3 text-primary" />
               <h3 className="font-medium text-foreground mb-1">Email</h3>
-              <p className="text-muted-foreground">akshith@example.com</p>
+              <p className="text-muted-foreground">soulfulcapturebyakshith@gmail.com</p>
             </div>
             <div className="p-6 bg-card border border-border rounded-xl">
               <Phone className="w-8 h-8 mx-auto mb-3 text-primary" />
               <h3 className="font-medium text-foreground mb-1">Phone</h3>
-              <p className="text-muted-foreground">+1 (555) 123-4567</p>
+              <p className="text-muted-foreground">+91 9848863666</p>
             </div>
             <div className="p-6 bg-card border border-border rounded-xl">
               <Clock className="w-8 h-8 mx-auto mb-3 text-primary" />
