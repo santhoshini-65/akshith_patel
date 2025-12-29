@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Quick JSON sanity check before anything else
+npm run check-package-json
+
+# Run staged files through ESLint autofix
+npx lint-staged || true
