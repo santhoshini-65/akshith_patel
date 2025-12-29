@@ -10,7 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 // Your EmailJS Configuration for Booking
 const EMAILJS_CONFIG = {
   SERVICE_ID: 'service_ip5dina',
-  TEMPLATE_ID: 'template_cs3b46i', // Use existing template or create new one
+  TEMPLATE_ID: 'template_3oo1kkh', // Use existing template or create new one
   PUBLIC_KEY: 'gJnY4IeY0AhdKdQQ0',
 };
 
