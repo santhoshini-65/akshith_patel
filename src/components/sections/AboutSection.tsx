@@ -56,7 +56,7 @@ export const AboutSection = () => {
 
             <AnimatedSection delay={400}>
               <p className="text-muted-foreground leading-relaxed mb-6">
-                Over time, I’ve photographed people, places, and emotions in their most honest form. I’m drawn to quiet details, natural expressions, and moments that don’t ask to be posed.
+                Over time, I've photographed people, places, and emotions in their most honest form. I'm drawn to quiet details, natural expressions, and moments that don't ask to be posed.
               </p>
             </AnimatedSection>
 
